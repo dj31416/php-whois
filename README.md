@@ -16,6 +16,8 @@ $whois_answer = $domain->info();
 
 echo $whois_answer;
 
+echo $domain->getExpired();
+
 if ($domain->isAvailable()) {
     echo "Domain is available\n";
 } else {
