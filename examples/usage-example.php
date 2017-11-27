@@ -1,14 +1,16 @@
 <?php
 
-include '../src/Phois/Whois/Whois.php';
+include dirname(__FILE__).'/../src/Phois/Whois/Whois.php';
 
-$sld = 'reg.ru';
+$sld = 'bmw-318.com';
 
 $domain = new Phois\Whois\Whois($sld);
 
 $whois_answer = $domain->info();
 
-echo $whois_answer;
+//echo $whois_answer;
+
+echo $domain->getExpired();
 
 if ($domain->isAvailable()) {
     echo "Domain is available\n";

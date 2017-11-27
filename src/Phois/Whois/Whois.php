@@ -12,6 +12,8 @@ class Whois
 
     private $servers;
 
+    private $expired;
+
     /**
      * @param string $domain full domain name (without trailing dot)
      */
@@ -116,13 +118,27 @@ class Whois
                 $string_encoding = mb_detect_encoding($string, "UTF-8, ISO-8859-1, ISO-8859-15", true);
                 $string_utf8 = mb_convert_encoding($string, "UTF-8", $string_encoding);
 
-                return htmlspecialchars($string_utf8, ENT_COMPAT, "UTF-8", true);
+
+                $res = htmlspecialchars($string_utf8, ENT_COMPAT, "UTF-8", true);
+                //$this->expired = $this->getExpired($res);
+                return $res; 
             } else {
                 return "No whois server for this tld in list!";
             }
         } else {
             return "Domain name isn't valid!";
         }
+    }
+
+    public function getExpired(){
+
+        preg_match('/Registry Expiry Date:.*/',$this->info(),$match); 
+        if($match[0]){
+            return trim( str_replace("Registry Expiry Date:","",$match[0]) );
+        }else{
+            return '';
+        }
+
     }
 
     public function htmlInfo()
