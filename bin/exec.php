@@ -12,6 +12,23 @@ if($sld==''){
 
 
 $domain = new Phois\Whois\Whois($sld);
-echo $domain->getExpired();
+//$whois_answer = $domain->info();
+
+//echo $whois_answer;
+//exit;
+//echo $domain->getExpired();
+//echo "\r\n";
+//echo $domain->getRegistrar();
+//var_dump( $domain->getNS() );
+
+$res = array(
+    'expired' => $domain->getExpired(),
+    'registrar' => $domain->getRegistrar(),
+    'ns'=>$domain->getNS(),
+
+);
+
+echo json_encode($res);
+
 exit;
 
