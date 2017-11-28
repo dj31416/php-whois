@@ -14,6 +14,8 @@ class Whois
 
     private $expired;
 
+    private $answer;
+
     /**
      * @param string $domain full domain name (without trailing dot)
      */
@@ -31,6 +33,8 @@ class Whois
             throw new \InvalidArgumentException("Invalid $domain syntax");
         // setup whois servers array from json file
         $this->servers = json_decode(file_get_contents( __DIR__.'/whois.servers.json' ), true);
+
+        $this->answer = $this->info();
     }
 
     public function info()
@@ -130,11 +134,29 @@ class Whois
         }
     }
 
+    /**
+    * @return  string with "Registry Expiry Date" field
+    */
+
     public function getExpired(){
 
-        preg_match('/Registry Expiry Date:.*/',$this->info(),$match); 
+        preg_match('/Registry Expiry Date:.*/',$this->answer,$match); 
         if($match[0]){
             return trim( str_replace("Registry Expiry Date:","",$match[0]) );
+        }else{
+            return '';
+        }
+
+    }
+    /**
+    * @return  string with "Registrar" field
+    */
+
+    public function getRegistrar(){
+
+        preg_match('/Registrar:.*/',$this->answer,$match); 
+        if($match[0]){
+            return trim( str_replace("Registrar:","",$match[0]) );
         }else{
             return '';
         }
