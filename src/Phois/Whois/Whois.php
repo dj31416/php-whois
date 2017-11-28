@@ -148,6 +148,7 @@ class Whois
         }
 
     }
+
     /**
     * @return  string with "Registrar" field
     */
@@ -159,6 +160,24 @@ class Whois
             return trim( str_replace("Registrar:","",$match[0]) );
         }else{
             return '';
+        }
+
+    }
+
+    /**
+    * @return  array with "Name Server" field
+    */
+
+    public function getNS(){
+
+        preg_match_all('/Name Server:.*/',$this->answer,$match); 
+        if($match[0]){
+            foreach($match[0] as $key => $row){
+                    $match[0][$key] = trim( str_replace("Name Server:","",$row) );
+            }
+            return $match[0];
+        }else{
+            return array();
         }
 
     }
